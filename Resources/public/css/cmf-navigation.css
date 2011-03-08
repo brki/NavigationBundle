@@ -1,0 +1,53 @@
+div.breadcrumb ul {
+    margin: 0px;
+    padding: 0px;
+
+}
+/* show breadcrumb on one line */
+div.breadcrumb li {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    margin-right: 6px;
+}
+/* separate items with a > */
+div.breadcrumb li:after {
+    content: ' &gt;';
+}
+/* but show nothing after the last entry */
+div.breadcrumb li:last-child:after {
+    content: '';
+}
+
+/* each level of menu will margin by additional 8px */
+div.menu ul {
+    margin: 0px;
+    padding: 0px;
+    margin-left: 8px;
+}
+/*
+ * you can add something for this pattern to have nicer menus
+ * i.e. use the children/nochildren classes to indicate with the bullet whether
+ * this entry is a leave or has children
+ */
+div.menu li {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+}
+/* make first level nodes bigger */
+div.menu > ul {
+    font-size: +1;
+}
+/* make active menu entries bold */
+div.menu li.active {
+    font-weight: bold;
+}
+/* hide inactive menu entries */
+div.menu li.notactive {
+    display: none;
+}
+/* except for siblings of active nodes */
+div.menu li.active > ul > li.notactive {
+    display: block;
+}
