@@ -1,7 +1,7 @@
 <?php
 namespace Symfony\CMF\Bundle\NavigationBundle\Tests\Functional\Services;
 
-use Symfony\CMF\CoreBundle\Test\CmfTestCase;
+use Symfony\CMF\Bundle\CoreBundle\Test\CmfTestCase;
 
 use Symfony\CMF\Bundle\NavigationBundle\Services\HierarchyWalker;
 
