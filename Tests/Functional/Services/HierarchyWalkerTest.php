@@ -1,10 +1,10 @@
 <?php
-namespace Symfony\Cmf\Bundle\NavigationBundle\Tests\Functional\Services;
+namespace Symfony\Cmf\Bundle\NavigationBundle\Tests\Functional\Service;
 
 use Symfony\Cmf\Bundle\CoreBundle\Test\CmfTestCase;
 
 use Symfony\Cmf\Bundle\CoreBundle\Helper\DirectPathMapper;
-use Symfony\Cmf\Bundle\NavigationBundle\Services\HierarchyWalker;
+use Symfony\Cmf\Bundle\NavigationBundle\Service\HierarchyWalker;
 
 /**
  * Test hiearchy walker service

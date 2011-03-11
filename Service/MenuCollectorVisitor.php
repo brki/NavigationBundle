@@ -1,5 +1,5 @@
 <?php
-namespace Symfony\Cmf\Bundle\NavigationBundle\Services;
+namespace Symfony\Cmf\Bundle\NavigationBundle\Service;
 
 use PHPCR\ItemInterface;
 use Symfony\Cmf\Bundle\CoreBundle\Helper\PathMapperInterface;

@@ -1,7 +1,7 @@
 
 services:
     symfony.cmf.navigation.hierarchyWalker:
-        class: Symfony\CMF\Bundle\NavigationBundle\Services\HierarchyWalker
+        class: Symfony\CMF\Bundle\NavigationBundle\Service\HierarchyWalker
         arguments:
             jackalope: "@jackalope.loader"
             mapper: "@symfony.cmf.core.pathMapper"

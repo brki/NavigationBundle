@@ -1,5 +1,5 @@
 <?php
-namespace Symfony\Cmf\Bundle\NavigationBundle\Services;
+namespace Symfony\Cmf\Bundle\NavigationBundle\Service;
 
 use PHPCR\ItemVisitorInterface;
 use PHPCR\ItemInterface;
