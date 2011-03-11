@@ -12,6 +12,11 @@ use Symfony\CMF\Bundle\NavigationBundle\Services\HierarchyWalker;
  */
 class HierarchyWalkerTest extends CmfTestCase
 {
+    public function __construct()
+    {
+        parent::__construct(__DIR__.'/../../Fixtures/');
+    }
+
     public function setUp()
     {
         $this->assertJackrabbitRunning();
