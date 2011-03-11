@@ -1,8 +1,8 @@
 <?php
-namespace Symfony\CMF\Bundle\NavigationBundle\Services;
+namespace Symfony\Cmf\Bundle\NavigationBundle\Services;
 
 use PHPCR\ItemInterface;
-use Symfony\CMF\Bundle\CoreBundle\Helper\PathMapperInterface;
+use Symfony\Cmf\Bundle\CoreBundle\Helper\PathMapperInterface;
 
 /**
  * visitor to collect entries for a menu hierarchy

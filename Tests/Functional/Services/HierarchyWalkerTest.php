@@ -1,9 +1,10 @@
 <?php
-namespace Symfony\CMF\Bundle\NavigationBundle\Tests\Functional\Services;
+namespace Symfony\Cmf\Bundle\NavigationBundle\Tests\Functional\Services;
 
-use Symfony\CMF\Bundle\CoreBundle\Test\CmfTestCase;
+use Symfony\Cmf\Bundle\CoreBundle\Test\CmfTestCase;
 
-use Symfony\CMF\Bundle\NavigationBundle\Services\HierarchyWalker;
+use Symfony\Cmf\Bundle\CoreBundle\Helper\DirectPathMapper;
+use Symfony\Cmf\Bundle\NavigationBundle\Services\HierarchyWalker;
 
 /**
  * Test hiearchy walker service
@@ -25,7 +26,7 @@ class HierarchyWalkerTest extends CmfTestCase
 
     public function testGetChildList()
     {
-        $walker = new HierarchyWalker($this->getContainer()->get('jackalope.loader'), '/cms/navigation/main');
+        $walker = new HierarchyWalker($this->getContainer()->get('jackalope.loader'), new DirectPathMapper('/cms/navigation/main'));
 
         $childlist = $walker->getChildList('test/');
         $this->assertEquals(2, count($childlist));
@@ -40,7 +41,7 @@ class HierarchyWalkerTest extends CmfTestCase
 
     public function testGetParents()
     {
-        $walker = new HierarchyWalker($this->getContainer()->get('jackalope.loader'), '/cms/navigation/main');
+        $walker = new HierarchyWalker($this->getContainer()->get('jackalope.loader'), new DirectPathMapper('/cms/navigation/main'));
         $breadcrumb = $walker->getAncestors('test/leveltwo/levelthree');
         $this->assertEquals(3, count($breadcrumb), 'Not right number of ancestors');
         list($key, $val) = each($breadcrumb);

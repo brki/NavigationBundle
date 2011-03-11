@@ -1,11 +1,11 @@
 <?php
-namespace Symfony\CMF\Bundle\NavigationBundle\Services;
+namespace Symfony\Cmf\Bundle\NavigationBundle\Services;
 
 use PHPCR\ItemVisitorInterface;
 use PHPCR\ItemInterface;
 use PHPCR\NodeInterface;
 
-use Symfony\CMF\Bundle\CoreBundle\Helper\PathMapperInterface;
+use Symfony\Cmf\Bundle\CoreBundle\Helper\PathMapperInterface;
 
 /**
  * visitor to collect url => title into a flat array

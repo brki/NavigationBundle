@@ -1,12 +1,12 @@
 <?php
 
-namespace Symfony\CMF\Bundle\NavigationBundle\Services;
+namespace Symfony\Cmf\Bundle\NavigationBundle\Services;
 
 use PHPCR\SessionInterface;
 use PHPCR\NodeInterface;
 use PHPCR\ItemVisitorInterface;
 
-use Symfony\CMF\Bundle\CoreBundle\Helper\PathMapperInterface;
+use Symfony\Cmf\Bundle\CoreBundle\Helper\PathMapperInterface;
 
 /**
  * this service knows about phpcr and builds navigation information
@@ -30,7 +30,7 @@ class HierarchyWalker
     protected $session;
 
     /**
-     * @var Symfony\CMF\Bundle\CoreBundle\Helper\PathMapperInterface
+     * @var Symfony\Cmf\Bundle\CoreBundle\Helper\PathMapperInterface
      */
     protected $mapper;
 
@@ -46,6 +46,7 @@ class HierarchyWalker
      */
     protected $titleprop;
 
+
     /**
      * @param JackalopeLoader $jackalope the jackalope service to get the session from
      * @param PathMapperInterface $mapper to map urls to storage ids
@@ -56,7 +57,7 @@ class HierarchyWalker
         $this->session = $jackalope->getSession();
         $this->mapper  = $mapper;
         $this->titleprop = $titleprop;
-        $this->basepath = $mapper->getStorageId('/');
+        $basepath = $mapper->getStorageId('/');
         $this->rootnode = $this->session->getNode($basepath);
         if ($this->rootnode == null) {
             throw new Exception("Did not find any node at $basepath");
