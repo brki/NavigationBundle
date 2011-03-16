@@ -39,7 +39,7 @@ class AttributeCollectorVisitor implements ItemVisitorInterface
             throw new \Exception("Internal error: did not expect to visit a non-node object: $item");
         }
 
-        $url = $mapper->getUrl($item->getPath());
+        $url = $this->mapper->getUrl($item->getPath());
         $this->tree[$url] = $item->getPropertyValue($this->titleprop);
     }
 
