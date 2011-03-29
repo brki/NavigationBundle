@@ -155,12 +155,15 @@ class HierarchyWalker
      * Using the depth parameter, you can load more than the nodes in active url and their siblings,
      * i.e. to preload children of other menu items or to build a sitemap
      *
-     * root => level1
-     *      => level1
-     *      => level1 (active, children)
-     *         => level2
-     *         => level2
-     *      => level1
+     * The structure is a nested array of arrays with the navigation root as first array.
+     * array("url" => "/",
+     *       "title" => "X",
+     *       "selected" => true, #whether this entry is in the selected path
+     *       "node" => [PHPCRNode Object],
+     *       "children" => array("/x" => array([node x with maybe children]),
+     *                           "/y" => array([node y with maybe children]),
+     *                          )
+     * );
      *
      *
      * TODO: is there a way to refactor this to allow a custom visitor as well?

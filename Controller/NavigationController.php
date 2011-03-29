@@ -63,6 +63,8 @@ class NavigationController extends Controller
     /**
      * Render a menu open at a url. Each item will link to its url.
      *
+     * See HierarchyWalker::getMenu for documentation on the array structure you get for the template
+     *
      * @param string url the url to the currently open item
      */
     public function menuAction($url)
@@ -70,7 +72,7 @@ class NavigationController extends Controller
         $this->checkUrl();
         $menu = $this->walker->getMenu($url);
         return $this->render('SymfonyCmfNavigationBundle:Navigation:menu.html.twig',
-                             array('menu' => $menu));
+                             array('root' => $menu));
     }
 
     public function sitemapAction()

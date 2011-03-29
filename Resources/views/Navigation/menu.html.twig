@@ -1,22 +1,4 @@
+{# see HierarchyWalker::getMenu() for documentation on the nested array structure you get here #}
 <div class="cmf-menu">
-    <ul>
-        {% foreach entry in menu %}
-            <li class="{% if entry.active %}active{% else %}notactive{% endif %}">
-                <a href="{{ todo: base url? ~ entry.url }}"
-                    class="
-                        {% if entry.children %}
-                            {% if count(entry.children) %}
-                                children
-                            {% else %}
-                                nochildren
-                            {% endif %}
-                        {% endif %}
-                        {# if no children elem present, walker did not check for children #}
-                    >{{ entry.title }}</a>
-                {% if entry.children and count(entry.children) %}
-                    {% include "SymfonyCMFNavigationBundle:Navigation:menu.html.twig" with {'menu': entry.children} %}
-                {% endif %}
-            </li>
-        {% endforeach %}
-    </ul>
+    {% include "SymfonyCMFNavigationBundle:Navigation:menulevel.html.twig" with {'menu': root} %}
 </div>

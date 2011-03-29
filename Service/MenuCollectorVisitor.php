@@ -14,17 +14,17 @@ use Symfony\Cmf\Bundle\CoreBundle\Helper\PathMapperInterface;
  */
 class MenuEntryVisitor extends AttributeCollectorVisitor
 {
-    protected $activeurl;
+    protected $selectedurl;
 
     /**
      * @param string $titleprop property name of the title to get from the phpcr node
      * @param PathMapperInterface $mapper to map urls to storage ids
      * @param string $activeurl the url to the currently opened menu item to see whether a node is ancestor of that node
      */
-    public function __construct($titleprop, PathMapperInterface $mapper, $activeurl)
+    public function __construct($titleprop, PathMapperInterface $mapper, $selectedurl)
     {
         parent::__construct($titleprop, $mapper);
-        $this->activeurl = $activeurl;
+        $this->selectedurl = $selectedurl;
     }
 
     /**
@@ -44,8 +44,8 @@ class MenuEntryVisitor extends AttributeCollectorVisitor
 
         $url = $this->mapper->getUrl($item->getPath());
         $title = $item->getPropertyValue($this->titleprop);
-        $active = (strncmp($url, $this->activeurl, strlen($url)) === 0);
+        $selected = (strncmp($url, $this->selectedurl, strlen($url)) === 0);
 
-        $this->tree[$url] = array('url' => $url, 'title' => $title, 'active' => $active, 'node' => $item);
+        $this->tree[$url] = array('url' => $url, 'title' => $title, 'selected' => $selected, 'node' => $item);
     }
 }
