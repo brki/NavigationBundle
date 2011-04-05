@@ -9,7 +9,7 @@
                         {% endif %}
                     >{{ entry.title }}</a>
                 {% if entry.children and count(entry.children) %}
-                    {% include "SymfonyCMFNavigation:Navigation:sitemap.html.twig" with {'map': entry.children} %}
+                    {% include "SymfonyCMFNavigationBundle:Navigation:sitemap.html.twig" with {'map': entry.children} %}
                 {% endif %}
             </li>
         {% endforeach %}

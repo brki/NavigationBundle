@@ -4,7 +4,7 @@
         {# if no children elem present at all, walker did not check for children #}
             <a href="{{ todo: base url? ~ entry.url }}">{{ entry.title }}</a>
             {% if entry.children and count(entry.children) %}
-                {% include "SymfonyCMFNavigation:Navigation:menu.html.twig" with {'menu': entry.children} %}
+                {% include "SymfonyCMFNavigationBundle:Navigation:menu.html.twig" with {'menu': entry.children} %}
             {% endif %}
         </li>
     {% endforeach %}
