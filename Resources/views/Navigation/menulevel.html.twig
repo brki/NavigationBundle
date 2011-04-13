@@ -4,7 +4,7 @@
         {# if no children elem present at all, walker did not check for children #}
             <a href="{{ path(routename, {'path': entry.url}) }}">{{ entry.title }}</a>
             {% if entry.children %}
-                {% include "SymfonyCmfNavigationBundle:Navigation:menu.html.twig" with {'menu': entry.children} %}
+                {% include "SymfonyCmfNavigationBundle:Navigation:menulevel.html.twig" with {'menu': entry.children} %}
             {% endif %}
         </li>
     {% endfor %}
