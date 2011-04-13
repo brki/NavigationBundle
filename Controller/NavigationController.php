@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Controller;
+namespace Symfony\Cmf\Bundle\NavigationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -13,13 +13,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class NavigationController extends Controller
 {
     protected $walker;
+    protected $routename;
 
     /**
      * @param HierarchyWalker $walker the service to know about hierarchies
      */
-    public function __construct($walker)
+    public function __construct($container, $walker, $routename)
     {
+        $this->container = $container;
         $this->walker = $walker;
+        $this->routename = $routename;
     }
 
     /**
@@ -41,7 +44,7 @@ class NavigationController extends Controller
      */
     public function childlistAction($url)
     {
-        $this->checkUrl();
+        $this->checkUrl($url);
         $children = $this->walker->getChildList($url);
         return $this->render('SymfonyCmfNavigationBundle:Navigation:childlist.html.twig',
                              array('children' => $children));
@@ -54,7 +57,7 @@ class NavigationController extends Controller
      */
     public function breadcrumbAction($url)
     {
-        $this->checkUrl();
+        $this->checkUrl($url);
         $breadcrumb = $this->walker->getBreadcrumb($url);
         return $this->render('SymfonyCmfNavigationBundle:Navigation:breadcrumb.html.twig',
                              array('breadcrumb' => $breadcrumb));
@@ -69,10 +72,11 @@ class NavigationController extends Controller
      */
     public function menuAction($url)
     {
-        $this->checkUrl();
+        $this->checkUrl($url);
         $menu = $this->walker->getMenu($url);
         return $this->render('SymfonyCmfNavigationBundle:Navigation:menu.html.twig',
-                             array('root' => $menu));
+                             array('root' => $menu,
+                                   'routename' => $this->routename));
     }
 
     public function sitemapAction()

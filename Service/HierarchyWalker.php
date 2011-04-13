@@ -51,7 +51,7 @@ class HierarchyWalker
      * @param PathMapperInterface $mapper to map urls to storage ids
      * @param string $titleprop name of the title property to be returned along with the hierarchy. optional, defaults to name. Only used with the get methods, the visit methods do not rely on this.
      */
-    public function __construct($jackalope, PathMapperInterface $mapper, $titleprop = 'name')
+    public function __construct($jackalope, PathMapperInterface $mapper, $titleprop = 'label')
     {
         $this->session = $jackalope->getSession();
         $this->mapper  = $mapper;
@@ -143,11 +143,12 @@ class HierarchyWalker
      * In addition to implement PHPCR\ItemVisitorInterface, the visitor must have a getArray method
      * that returns information about each visited nodes in the format explained at getMenu
      *
-     * @param string $activeurl the url to the active node
+     * @param string $url the url to the active node
+     * @param string $fake whether to read a fake property as title (useful to read the non-defined root node of the menu tree)
      */
-    protected function createMenuVisitor($url)
+    protected function createMenuVisitor($url, $fake=false)
     {
-        return new MenuCollectorVisitor($this->titleprop, $this->mapper, $url);
+        return new MenuCollectorVisitor(($fake ? 'jcr:primaryType' : $this->titleprop), $this->mapper, $url);
     }
     /**
      * Build a menu tree leading to this url.
@@ -164,6 +165,7 @@ class HierarchyWalker
      *                           "/y" => array([node y with maybe children]),
      *                          )
      * );
+     * If skiproot is true (the default) the top structure is an array of children instead.
      *
      *
      * TODO: is there a way to refactor this to allow a custom visitor as well?
@@ -174,44 +176,56 @@ class HierarchyWalker
      * TODO: is the definition of active as being part of the url a simplified assumption? should we rather let the mapper decide?
      *
      * @param string $url the url (without eventual prefix from routing config)
+     * @param bool $skiproot whether to not include the root node in the collection, defaults to skipping it
      * @param int $depth depth to follow non-active node children. defaults to 0 (do not follow). -1 means unlimited
      *
-     * @return array structure with entries for each node: title, url, active (parent of $url or $url itselves), node (the phpcr node), children (array, empty array on no children. only set if active node or within depth.)
+     * @return array structure with entries for each node: title, url, active (parent of $url or $url itselves), node (the phpcr node), children (array, empty array on no children. false if not active node and deeper away from active node than depth.). if you skip the root, the uppermost thing is directly an array of children
      */
-    public function getMenu($path, $depth=0)
+    public function getMenu($path, $skiproot = true, $depth=0)
     {
-        $visitor = $this->createMenuVisitor($path);
+        if (! $skiproot) {
+            $visitor = $this->createMenuVisitor($path);
+        } else {
+            $visitor = $this->createMenuVisitor($path, true);
+        }
         $this->rootnode->accept($visitor);
         $tree = $visitor->getArray();
-        $tree = $tree[0]; //visitor just was at the root node, there is exactly one
-        $tree['children'] = $this->getMenuRecursive($tree, $depth, 0);
+        $tree = reset($tree); //visitor just was at the root node, there is exactly one
+        $children= $this->getMenuRecursive($tree, $path, $depth, 0);
+        if (! $skiproot) {
+            $tree['children'] = $children;
+        } else {
+            $tree = $children;
+        }
         return $tree;
     }
 
     /**
      * Iterate over the menu tree recursively, starting with the children of each record from the MenuCollectorVisitor
      *
-     * @param array $record as returned by MenuCollectorVisitor
+     * @param array $parentrecord as returned by MenuCollectorVisitor
      * @param string $path the node path of the active node
      * @param int $depth the depth to which to follow non-active nodes, -1 for unlimited
      * @param int $curdepth current depth recursion is into non-active nodes
      * @return nested array of all children of this node and their children down the active path and others down to $depth
      */
-    protected function getMenuRecursive($record, $path, $depth, $curdepth)
+    protected function getMenuRecursive($parentrecord, $path, $depth, $curdepth)
     {
         $visitor = $this->createMenuVisitor($path);
-        foreach($record['node'] as $child) {
+        foreach($parentrecord['node'] as $child) {
             //iterate over that node's children
             $child->accept($visitor);
         }
         $list = $visitor->getArray();
-        foreach($list as $record) {
+        foreach($list as $key => $record) {
             if ($record['active']) {
-                $record['children'] = $this->getMenuRecursive($record, $path, $depth, 0);
+                $list[$key]['children'] = $this->getMenuRecursive($record, $path, $depth, 0);
             } elseif ($curdepth < $depth) {
-                $record['children'] = $this->getMenuRecursive($record, $path, $depth, $curdepth + 1);
+                $list[$key]['children'] = $this->getMenuRecursive($record, $path, $depth, $curdepth + 1);
             } elseif ($depth === -1) {
-                $record['children'] = $this->getMenuRecursive($record, $path, $depth, -1);
+                $list[$key]['children'] = $this->getMenuRecursive($record, $path, $depth, -1);
+            } else {
+                $list[$key]['children'] = false;
             }
         }
         return $list;

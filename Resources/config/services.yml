@@ -1,0 +1,15 @@
+
+services:
+    symfony.cmf.navigation.hierarchyWalker:
+        class: Symfony\Cmf\Bundle\NavigationBundle\Service\HierarchyWalker
+        arguments:
+            jackalope: "@jackalope.loader"
+            mapper: "@symfony.cmf.core.pathMapper"
+        shared: true
+    symfony.cmf.navigation.controller:
+        class: Symfony\Cmf\Bundle\NavigationBundle\Controller\NavigationController
+        arguments:
+            container: "@service_container"
+            walker: "@symfony.cmf.navigation.hierarchyWalker"
+            routename: "%symfony.cmf.mainmenu_routename%"
+        shared: false

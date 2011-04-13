@@ -2,6 +2,7 @@
 namespace Symfony\Cmf\Bundle\NavigationBundle\Service;
 
 use PHPCR\ItemInterface;
+use PHPCR\NodeInterface;
 use Symfony\Cmf\Bundle\CoreBundle\Helper\PathMapperInterface;
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Cmf\Bundle\CoreBundle\Helper\PathMapperInterface;
  *
  * @author David Buchmann <david@liip.ch>
  */
-class MenuEntryVisitor extends AttributeCollectorVisitor
+class MenuCollectorVisitor extends AttributeCollectorVisitor
 {
     protected $selectedurl;
 
@@ -39,13 +40,13 @@ class MenuEntryVisitor extends AttributeCollectorVisitor
     public function visit(ItemInterface $item)
     {
         if (! $item instanceof NodeInterface) {
-            throw new Exception('Internal error: did not expect to visit a non-node object');
+            throw new \Exception('Internal error: did not expect to visit a non-node object: '.get_class($item));
         }
 
         $url = $this->mapper->getUrl($item->getPath());
         $title = $item->getPropertyValue($this->titleprop);
         $selected = (strncmp($url, $this->selectedurl, strlen($url)) === 0);
 
-        $this->tree[$url] = array('url' => $url, 'title' => $title, 'selected' => $selected, 'node' => $item);
+        $this->tree[$url] = array('url' => $url, 'title' => $title, 'active' => $selected, 'node' => $item);
     }
 }
