@@ -39,15 +39,15 @@ div.menu li {
 div.menu > ul {
     font-size: +1;
 }
-/* make active menu entries bold */
-div.menu li.active {
+/* make selected menu entries bold */
+div.menu li.selected {
     font-weight: bold;
 }
-/* hide inactive menu entries */
-div.menu li.notactive {
+/* hide unselected menu entries */
+div.menu li.unselected {
     display: none;
 }
-/* except for siblings of active nodes */
-div.menu li.active > ul > li.notactive {
+/* except for siblings of selected nodes */
+div.menu li.selected > ul > li.unselected {
     display: block;
 }

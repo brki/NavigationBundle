@@ -143,7 +143,7 @@ class HierarchyWalker
      * In addition to implement PHPCR\ItemVisitorInterface, the visitor must have a getArray method
      * that returns information about each visited nodes in the format explained at getMenu
      *
-     * @param string $url the url to the active node
+     * @param string $url the url to the selected path
      * @param string $fake whether to read a fake property as title (useful to read the non-defined root node of the menu tree)
      */
     protected function createMenuVisitor($url, $fake=false)
@@ -153,7 +153,7 @@ class HierarchyWalker
     /**
      * Build a menu tree leading to this url.
      *
-     * Using the depth parameter, you can load more than the nodes in active url and their siblings,
+     * Using the depth parameter, you can load more than the nodes in selected url and their siblings,
      * i.e. to preload children of other menu items or to build a sitemap
      *
      * The structure is a nested array of arrays with the navigation root as first array.
@@ -169,17 +169,17 @@ class HierarchyWalker
      *
      *
      * TODO: is there a way to refactor this to allow a custom visitor as well?
-     * maybe a factory for the visitor that can also decide wheter an element is active or not?
-     * pass a visitorfactory that has getVisitor(parent, active, depth, ...)?
+     * maybe a factory for the visitor that can also decide wheter an element is selected or not?
+     * pass a visitorfactory that has getVisitor(parent, selected, depth, ...)?
      * then the factory would be responsible of aggregating everything together
      *
-     * TODO: is the definition of active as being part of the url a simplified assumption? should we rather let the mapper decide?
+     * TODO: is the definition of selected as being part of the url a simplified assumption? should we rather let the mapper decide?
      *
      * @param string $url the url (without eventual prefix from routing config)
      * @param bool $skiproot whether to not include the root node in the collection, defaults to skipping it
-     * @param int $depth depth to follow non-active node children. defaults to 0 (do not follow). -1 means unlimited
+     * @param int $depth depth to follow unselected node children. defaults to 0 (do not follow). -1 means unlimited
      *
-     * @return array structure with entries for each node: title, url, active (parent of $url or $url itselves), node (the phpcr node), children (array, empty array on no children. false if not active node and deeper away from active node than depth.). if you skip the root, the uppermost thing is directly an array of children
+     * @return array structure with entries for each node: title, url, selected (parent of $url or $url itselves), node (the phpcr node), children (array, empty array on no children. false if not selected node and deeper away from selected node than depth.). if you skip the root, the uppermost thing is directly an array of children
      */
     public function getMenu($path, $skiproot = true, $depth=0)
     {
@@ -204,10 +204,10 @@ class HierarchyWalker
      * Iterate over the menu tree recursively, starting with the children of each record from the MenuCollectorVisitor
      *
      * @param array $parentrecord as returned by MenuCollectorVisitor
-     * @param string $path the node path of the active node
-     * @param int $depth the depth to which to follow non-active nodes, -1 for unlimited
-     * @param int $curdepth current depth recursion is into non-active nodes
-     * @return nested array of all children of this node and their children down the active path and others down to $depth
+     * @param string $path the node path of the selected url
+     * @param int $depth the depth to which to follow unselected nodes, -1 for unlimited
+     * @param int $curdepth current depth recursion is into unselected nodes
+     * @return nested array of all children of this node and their children down the selected path and others down to $depth
      */
     protected function getMenuRecursive($parentrecord, $path, $depth, $curdepth)
     {
@@ -218,7 +218,7 @@ class HierarchyWalker
         }
         $list = $visitor->getArray();
         foreach($list as $key => $record) {
-            if ($record['active']) {
+            if ($record['selected']) {
                 $list[$key]['children'] = $this->getMenuRecursive($record, $path, $depth, 0);
             } elseif ($curdepth < $depth) {
                 $list[$key]['children'] = $this->getMenuRecursive($record, $path, $depth, $curdepth + 1);

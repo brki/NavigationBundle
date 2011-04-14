@@ -11,5 +11,4 @@ TODO
 * only menu working. fix other actions to render the route
 * config options for the configurable stuff
 * fix children / nochildren for menu
-* cleanup selected versus active
 * tests

@@ -20,7 +20,7 @@ class MenuCollectorVisitor extends AttributeCollectorVisitor
     /**
      * @param string $titleprop property name of the title to get from the phpcr node
      * @param PathMapperInterface $mapper to map urls to storage ids
-     * @param string $activeurl the url to the currently opened menu item to see whether a node is ancestor of that node
+     * @param string $selectedurl the url to the currently opened menu item to see whether a node is ancestor of that node
      */
     public function __construct($titleprop, PathMapperInterface $mapper, $selectedurl)
     {
@@ -33,9 +33,9 @@ class MenuCollectorVisitor extends AttributeCollectorVisitor
      *
      * we expect a node, will throw an exception if anything else
      *
-     * extract url, title and info whether active into array.
-     * active is determined as: the node url is a prefix of the activeurl.
-     * TODO: is the definition of active as being part of the url a simplified assumption? should we rather let the mapper decide?
+     * extract url, title and info whether selected into array.
+     * selected is determined as: the node url is a prefix of the selectedurl.
+     * TODO: is the definition of selected as being part of the url a simplified assumption? should we rather let the mapper decide?
      */
     public function visit(ItemInterface $item)
     {
@@ -47,6 +47,6 @@ class MenuCollectorVisitor extends AttributeCollectorVisitor
         $title = $item->getPropertyValue($this->titleprop);
         $selected = (strncmp($url, $this->selectedurl, strlen($url)) === 0);
 
-        $this->tree[$url] = array('url' => $url, 'title' => $title, 'active' => $selected, 'node' => $item);
+        $this->tree[$url] = array('url' => $url, 'title' => $title, 'selected' => $selected, 'node' => $item);
     }
 }
