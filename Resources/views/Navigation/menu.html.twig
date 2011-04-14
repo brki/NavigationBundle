@@ -1,5 +1,3 @@
 {# see HierarchyWalker::getMenu() for documentation on the nested array structure you get here #}
-<div class="cmf-menu">
-    {# TODO: handle case skiproot=false #}
-    {% include "SymfonyCmfNavigationBundle:Navigation:menulevel.html.twig" with {'menu': root} %}
-</div>
+{# TODO: handle case skiproot=false #}
+{% include "SymfonyCmfNavigationBundle:Navigation:menulevel.html.twig" with {'menu': root} %}
