@@ -2,7 +2,7 @@
     {% for entry in menu %}
         <li class="{% if entry.selected %}selected{% else %}unselected{% endif %} {% if entry.children %}{% if entry.children %}children{% else %}nochildren{% endif %}{% endif %}">
         {# if no children elem present at all, walker did not check for children #}
-            <a href="{{ path(routename, {'path': entry.url}) }}">{{ entry.title }}</a>
+            <a href="{{ path(routename, {'path': entry.url, '_locale': app.session.locale}) }}">{{ entry.title }}</a>
             {% if entry.children %}
                 {% include "SymfonyCmfNavigationBundle:Navigation:menulevel.html.twig" with {'menu': entry.children} %}
             {% endif %}
