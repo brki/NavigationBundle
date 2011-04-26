@@ -50,4 +50,12 @@ class AttributeCollectorVisitor implements ItemVisitorInterface
     {
         return $this->tree;
     }
+
+    /**
+     * reset aggregated information to empty array
+     */
+    public function reset()
+    {
+        $this->tree = array();
+    }
 }
