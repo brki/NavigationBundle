@@ -2,7 +2,7 @@
     <ul>
         {% foreach entry in map %}
             <li>
-                <a href="{{ todo: base url? ~ entry.url }}"
+                <a href="{{ path(routename, {'path': entry.url}) }}"
                     class="
                         {% if entry.children and count(entry.children) %}
                                 children

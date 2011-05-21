@@ -47,7 +47,8 @@ class NavigationController extends Controller
         $this->checkUrl($url);
         $children = $this->walker->getChildList($url);
         return $this->render('SymfonyCmfNavigationBundle:Navigation:childlist.html.twig',
-                             array('children' => $children));
+                             array('children' => $children,
+                                   'routename' => $this->routename));
     }
 
     /**
@@ -58,9 +59,10 @@ class NavigationController extends Controller
     public function breadcrumbAction($url)
     {
         $this->checkUrl($url);
-        $breadcrumb = $this->walker->getBreadcrumb($url);
+        $breadcrumb = $this->walker->getAncestors($url);
         return $this->render('SymfonyCmfNavigationBundle:Navigation:breadcrumb.html.twig',
-                             array('breadcrumb' => $breadcrumb));
+                             array('breadcrumb' => $breadcrumb,
+                                   'routename' => $this->routename));
     }
 
     /**
@@ -83,6 +85,7 @@ class NavigationController extends Controller
     {
         $map = $this->walker->getMenu('/', -1);
         return $this->render('SymfonyCmfNavigationBundle:Navigation:sitemap.html.twig',
-                             array('map' => $map));
+                             array('map' => $map,
+                                   'routename' => $this->routename));
     }
 }
