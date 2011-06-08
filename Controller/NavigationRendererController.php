@@ -60,7 +60,7 @@ class NavigationRendererController extends Controller
     {
         $this->checkUrl($url);
         $breadcrumb = $this->walker->getAncestors($url);
-        return $this->render('SymfonyCmfNavigationBundle:Navigation:breadcrumb.html.twig',
+        return $this->render('SymfonyCmfNavigationBundle:NavigationRenderer:breadcrumb.html.twig',
                              array('breadcrumb' => $breadcrumb,
                                    'routename' => $this->routename));
     }
@@ -84,7 +84,7 @@ class NavigationRendererController extends Controller
     public function sitemapAction()
     {
         $map = $this->walker->getMenu('/', -1);
-        return $this->render('SymfonyCmfNavigationBundle:Navigation:sitemap.html.twig',
+        return $this->render('SymfonyCmfNavigationBundle:NavigationRenderer:sitemap.html.twig',
                              array('map' => $map,
                                    'routename' => $this->routename));
     }
