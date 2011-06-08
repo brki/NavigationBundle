@@ -45,7 +45,7 @@ class MenuCollectorVisitor extends AttributeCollectorVisitor
 
         $url = $this->mapper->getUrl($item->getPath());
         $title = $item->getPropertyValue($this->titleprop);
-        $selected = (strncmp($url, $this->selectedurl, strlen($url)) === 0);
+        $selected = (strncmp($url, $this->selectedurl, strlen($url)) === 0); // fixme: what about /bla versus /blabla ?
 
         $this->tree[$url] = array('url' => $url, 'title' => $title, 'selected' => $selected, 'node' => $item);
     }

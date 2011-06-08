@@ -1,2 +1,4 @@
+#TODO: make this configurable
 parameters:
     symfony.cmf.mainmenu_routename: navigation
+    symfony.cmf.navigation.document: Symfony\Cmf\Bundle\NavigationBundle\Document\Navigation

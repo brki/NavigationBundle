@@ -2,14 +2,14 @@
     <ul>
         {% foreach entry in map %}
             <li>
-                <a href="{{ path(routename, {'path': entry.url}) }}"
+                <a href="{{ path(routename, {'url': entry.url}) }}"
                     class="
                         {% if entry.children and count(entry.children) %}
                                 children
                         {% endif %}
                     >{{ entry.title }}</a>
                 {% if entry.children and count(entry.children) %}
-                    {% include "SymfonyCMFNavigationBundle:Navigation:sitemap.html.twig" with {'map': entry.children} %}
+                    {% include "SymfonyCmfNavigationBundle:NavigationRenderer:sitemap.html.twig" with {'map': entry.children} %}
                 {% endif %}
             </li>
         {% endforeach %}

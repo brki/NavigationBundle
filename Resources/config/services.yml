@@ -10,6 +10,15 @@ services:
         class: Symfony\Cmf\Bundle\NavigationBundle\Controller\NavigationController
         arguments:
             container: "@service_container"
+            document_manager: "@doctrine.phpcr_odm.document_manager"
+            walker: "@symfony.cmf.navigation.hierarchyWalker"
+            mapper: "@symfony.cmf.core.pathMapper"
+            routename: "%symfony.cmf.mainmenu_routename%"
+        shared: false
+    symfony.cmf.navigation.renderer:
+        class: Symfony\Cmf\Bundle\NavigationBundle\Controller\NavigationRendererController
+        arguments:
+            container: "@service_container"
             walker: "@symfony.cmf.navigation.hierarchyWalker"
             routename: "%symfony.cmf.mainmenu_routename%"
         shared: false
